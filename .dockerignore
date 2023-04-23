@@ -1,0 +1,9 @@
+.github
+.gitignore
+.stignore
+.vscode
+
+k8s
+README.md
+okteto.yml
+.stignore

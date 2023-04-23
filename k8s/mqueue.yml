@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqueue-deployment # Sets Deployment name
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mqueue
+  template:
+    metadata:
+      labels:
+        app: mqueue
+    spec:
+      containers:
+        - name: mqueue
+          image: okteto.dev/message-queue # Sets Image
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6379 # Exposes container port
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mqueue-service # Sets service name
+  labels:
+    app: mqueue-service # Labels and Selectors
+spec:
+  ports:
+    - port: 6379 # Sets port to run the postgres application
+  selector:
+    app: mqueue-deployment
