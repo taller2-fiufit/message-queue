@@ -7,7 +7,7 @@ metadata:
     dev.okteto.com/generate-host: message-queue
 spec:
   rules:
-    - host: "*megaredhand.cloud.okteto.com"
+    - host: "*"
       http:
         paths:
           - path: /
@@ -17,13 +17,23 @@ spec:
                 name: mqueue-service
                 port:
                   number: 6379
-    - host: "*fedecolangelo.cloud.okteto.com"
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: mqueue-service
-                port:
-                  number: 6379
+    # - host: "*megaredhand.cloud.okteto.com"
+    #   http:
+    #     paths:
+    #       - path: /
+    #         pathType: Prefix
+    #         backend:
+    #           service:
+    #             name: mqueue-service
+    #             port:
+    #               number: 6379
+    # - host: "*fedecolangelo.cloud.okteto.com"
+    #   http:
+    #     paths:
+    #       - path: /
+    #         pathType: Prefix
+    #         backend:
+    #           service:
+    #             name: mqueue-service
+    #             port:
+    #               number: 6379
