@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ingress-nginx-tcp
+  namespace: default
+data:
+  "3679": default/mqueue-service:3679
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingress-nginx-controller
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx/nginx-ingress
+          args:
+            - /nginx-ingress-controller
+            - --tcp-services-configmap=$(POD_NAMESPACE)/ingress-nginx-tcp
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-nginx-controller
+  labels:
+    app: nginx
+spec:
+  type: LoadBalancer
+  ports:
+    - name: 3679-tcp
+      nodePort: 30957
+      port: 3679
+      protocol: TCP
+      targetPort: 3679
