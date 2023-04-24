@@ -15,9 +15,10 @@ spec:
       containers:
         - name: mqueue
           image: okteto.dev/message-queue # Sets Image
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 6379 # Exposes container port
+              protocol: TCP
 
 ---
 apiVersion: v1
@@ -27,7 +28,11 @@ metadata:
   labels:
     app: mqueue-service # Labels and Selectors
 spec:
-  ports:
-    - port: 6379 # Sets port to run the postgres application
+  type: NodePort
   selector:
     app: mqueue-deployment
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+      nodePort: 30007
